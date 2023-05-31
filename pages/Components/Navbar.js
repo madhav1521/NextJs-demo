@@ -10,6 +10,7 @@ export default function Navbar() {
         <Link href='/'>Next demo</Link>
       </h2>
       <ul>
+        <li className='favourite-link'><Link href='/favourite' className='links ' >Favourites</Link></li>
         <li><Link href='/tour' className='links' >Tour Lists</Link></li>
         <li><Link href='/tourId' className='links' >Tour Guidance</Link></li>
       </ul>

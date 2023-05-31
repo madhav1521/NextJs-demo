@@ -82,6 +82,7 @@ li:hover,li:active{color:rgb(255, 255, 226) ;}
 .icons{display: flex; flex-direction: column;justify-content: center;gap: 20px;}
 .tour-icons-title{display: flex;gap: 20px; z-index: 1; overflow: hidden;}
 .div-container{max-height: 550px;width: 700px; z-index: 10; overflow-y: auto; padding: 10px 20px; border-radius: 10px; background-color: rgb(70, 73, 75);}
+.div-container > p{position: sticky; top: -10px;padding: 5px; z-index: 11;background-color: rgb(70, 73, 75); text-align: center; color: wheat;}
 
 .icon-btns{ padding: 5px; border-radius: 50%; cursor: pointer;border: 0; background-color: transparent;}
 .delete:hover,.delete:active,.delete:focus{background-color: rgba(251, 2, 2, 0.4);}
@@ -97,28 +98,17 @@ li:hover,li:active{color:rgb(255, 255, 226) ;}
 
 /* progress bar ======================================================================== */
 
-#progressBarContainer {
-  position: fixed;
-  z-index: 10;
-  background: rgba(227, 10, 10, 0.664);
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-
-
-#progressBar {
-  background: linear-gradient(to left, red, violet);
-  transform-origin: top left;
-  transform: scale(0,0);
-  opacity: 0;
-}
-
+#progressBarContainer {position: fixed;z-index: 10;background: rgba(227, 10, 10, 0.664);width: 100%;top: 0;left: 0;}
+#progressBar {background: linear-gradient(to left, red, violet);transform-origin: top left;transform: scale(0,0);opacity: 0;}
 #progressBarContainer,
-#progressBar {
-  height: 10px;
-}
+#progressBar {height: 10px;}
 
+/* Favourites ================================================================================================ */
+
+.favourite-link{background-color: aliceblue;border-radius: 10px;}
+.favourite-link:hover{transform: scale(1.02);}
+
+.favourite-link .links{color: #b95fff;font-weight: 600;}
 
 
 
