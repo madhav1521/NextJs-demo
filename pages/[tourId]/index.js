@@ -119,33 +119,4 @@ export default function tourId(props) {
 }
 
 
-// export async function getStaticPaths() {
-//   return {
-//     fallback:false,
-//     paths:[
-//       {
-//         params: {
-//           id: '1'
-//         },
-//       },
-//       {
-//         params: {
-//           id: '2'
-//         },
-//       },
-
-//     ],
-//   };
-// }
-
-// export async function getStaticProps (context) {
-//   const tourId = context.params.id;
-//   console.log(tourId)
-//   return {
-//     props: {
-
-//     }
-//   }
-// }
-
 

@@ -8,6 +8,8 @@ import ButtonIcons from '../Components/ButtonIcons';
 // import UpdateForm from '../UpdateForm';
 // import Favourite from '../favourite';
 import Link from 'next/link';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 function Tour() {
     const [toursData, setToursData] = useState([]);
@@ -19,6 +21,9 @@ function Tour() {
     const [isHovered, setIsHovered] = useState(false);
     const [favorites, setFavorites] = useState([]);
     const [favoriteData, setFavoriteData] = useState([]);
+    const [city, setCity] = useState('');
+    const [description, setDescription] = useState('');
+    const [cost, setCost] = useState('');
 
     const router = useRouter();
 
@@ -44,6 +49,9 @@ function Tour() {
         }
         console.log('fav: ', favorites.includes(id))
     };
+
+
+
 
     // Get data ==================================================================================================================
 
@@ -110,65 +118,50 @@ function Tour() {
 
     // Edit/Update data ==================================================================================================================
 
-
-    // const editHandler = async (id) => {
-    //     const confirmed = window.confirm(`Are you sure you want to delete tour ${id}?`);
-    //     if (confirmed) {
-    //         try {
-    //             await onEditHandler(id);
-    //             console.log(`Tour ${id} successfully deleted.`);
-    //         } catch (error) {
-    //             console.log("Error deleting tour:", error);
-    //         }
-    //     }
-    // }
-
     const handleEdit = async (id) => {
         try {
-          const response = await fetch(
-            `https://travel-and-tour-35872-default-rtdb.firebaseio.com/Tours-Details/${id}.json`
-          );
-          if (!response.ok) {
-            console.log('Failed to update tour data.');
-            throw new Error('Failed to update data.');
-          }
-          const responseData = await response.json();
-          console.log('fetched data: ', responseData);
-          const loadedTours = [];
-          for (const key in responseData) {
-            if (responseData[key] && responseData[key].city) {
-                loadedTours.push({
-                    id: key,
-                    city: responseData[key].city,
-                    description: responseData[key].description,
-                    cost: responseData[key].cost,
-                });
+            const response = await fetch(
+                `https://travel-and-tour-35872-default-rtdb.firebaseio.com/Tours-Details/${id}.json`, {
+                method: 'PATCH',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    city: city,
+                    description: description,
+                    cost: cost,
+                })
+
             }
-        }
-          const updatedTours = loadedTours.map((tour) =>
-          tour.id === id
-          ? {
-              ...tour,
-              city: responseData.city,
-              description: responseData.description,
-              cost: responseData.cost,
-            }
-            : tour
+
             );
-            console.log('updatedTours data: ', updatedTours);
-      
-          router.push({
-            pathname: `/updateForm`,
-            query: {
-              id: id,
-              tours: JSON.stringify(updatedTours),
-            },
-          });
+
+            if (!response.ok) {
+                console.log('Failed to fetch tour data.');
+                throw new Error('Failed to fetch data.');
+            }
+
+            const responseData = await response.json();
+            console.log('fetched data: ', responseData);
+
+            // Auto-populate the form fields with the fetched data
+            setCity(responseData.city || '');
+            setDescription(responseData.description || '');
+            setCost(responseData.cost || '');
+
+            // Navigate to the tourId form or perform any other necessary actions
+            router.push({
+                pathname: `/updateForm`,
+                query: {
+                    id: id,
+                    tours: JSON.stringify(responseData),
+                },
+            });
         } catch (error) {
-          console.log('Error: ', error);
+            console.log('Error: ', error);
         }
-      };
-      
+    };
+
 
 
     // filter data ================================================================================================================== 
