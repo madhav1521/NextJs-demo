@@ -1,15 +1,31 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { handleEdit } from "../tour/index";
+
 const UpdateForm = () => {
+    const handleFormSubmit = async (id, formData) => {
+        try {
+            const updatedData = {
+                city: formData.city,
+                description: formData.description,
+                cost: formData.cost
+            };
+
+            await handleEdit(id, updatedData);
+            console.log(`Tour ${id} successfully updated.`);
+        } catch (error) {
+            console.log("Error updating tour:", error);
+        }
+    };
+
     const router = useRouter();
     const { id, tours } = router.query;
 
     const [formData, setFormData] = useState({
-        // id:id,
-        city:'city',
-        description:'description',
-        cost:'cost'
+        city: '',
+        description: '',
+        cost: ''
     });
 
     useEffect(() => {
@@ -34,7 +50,7 @@ const UpdateForm = () => {
     return (
         <div>
             <h1>Update Form</h1>
-            <form >
+            <form onSubmit={handleFormSubmit}>
                 <div>
                     <label htmlFor="city">City:</label>
                     <input
@@ -64,10 +80,10 @@ const UpdateForm = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Update</button>
+                <button>Update</button>
             </form>
         </div>
     );
-};
 
+};
 export default UpdateForm;

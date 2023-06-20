@@ -118,11 +118,66 @@ function Tour() {
 
     // Edit/Update data ==================================================================================================================
 
-    const handleEdit = async (id) => {
+    // const handleEdit = async (id) => {
+    //     try {
+    //         // debugger
+    //         const response = await fetch(
+    //             `https://travel-and-tour-35872-default-rtdb.firebaseio.com/Tours-Details/${id}.json`, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({
+    //                 city: city,
+    //                 description: description,
+    //                 cost: cost,
+    //             })
+
+    //             // body: JSON.stringify(toursData)
+
+    //         });
+
+    //         const responseData = await response.json();
+    //         if (!response.ok) {
+    //             console.log('Failed to fetch tour data.');
+    //             throw new Error('Failed to fetch data.');
+    //         }
+
+    //         console.log('fetched data: ', responseData);
+
+    //         // Auto-populate the form fields with the fetched data
+    //         // setCity(responseData.city || '');
+    //         // setDescription(responseData.description || '');
+    //         // setCost(responseData.cost || '');
+
+    //         // Navigate to the tourId form or perform any other necessary actions
+    //         // debugger
+    //         router.push({
+    //             pathname: `/updateForm`,
+    //             query: {
+    //                 id: id,
+    //                 tours: JSON.stringify({
+    //                     city: responseData,
+    //                     description: responseData,
+    //                     cost: responseData,
+    //                 })
+    //             },
+    //         });
+    //     } catch (error) {
+    //         console.log('Error: ', error);
+    //     }
+    // };
+    // const tourId = setToursData(responseData);
+    // handleEdit(tourId);
+    // console.log('id is: ' , id)
+
+
+    const handleEdit = async (id, updatedData) => {
+        debugger
         try {
             const response = await fetch(
                 `https://travel-and-tour-35872-default-rtdb.firebaseio.com/Tours-Details/${id}.json`, {
-                method: 'PATCH',
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -131,37 +186,31 @@ function Tour() {
                     description: description,
                     cost: cost,
                 })
-
-            }
-
-            );
-
+            });
+    
+            const responseData = await response.json();
             if (!response.ok) {
                 console.log('Failed to fetch tour data.');
                 throw new Error('Failed to fetch data.');
             }
 
-            const responseData = await response.json();
             console.log('fetched data: ', responseData);
-
-            // Auto-populate the form fields with the fetched data
-            setCity(responseData.city || '');
-            setDescription(responseData.description || '');
-            setCost(responseData.cost || '');
-
-            // Navigate to the tourId form or perform any other necessary actions
             router.push({
                 pathname: `/updateForm`,
                 query: {
                     id: id,
-                    tours: JSON.stringify(responseData),
+                    tours: JSON.stringify({
+                        city: responseData,
+                        description: responseData,
+                        cost: responseData,
+                    })
                 },
             });
         } catch (error) {
-            console.log('Error: ', error);
+            throw new Error("Error updating tour:", error);
         }
     };
-
+    
 
 
     // filter data ================================================================================================================== 
@@ -190,7 +239,7 @@ function Tour() {
                 filteredItems = filteredItems.filter(item =>
                     item.city.toLowerCase().includes(searchCity.toLowerCase())
                 );
-            }
+            }   
 
             setFilteredData(filteredItems);
         };
